@@ -5,7 +5,7 @@
     <span class="icon">
     	<img width="20" height="28" alt="Database" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQRJREFUeNpi/P//PwM1ARMDlcGogZQDlpMnT7pxc3NbA9nhQKxOpL5rQLwJiPeBsI6Ozl+YBOOOHTv+AOllQNwtLS39F2owKYZ/gRq8G4i3ggxEToggWzvc3d2Pk+1lNL4fFAs6ODi8JzdS7mMRVyDVoAMHDsANdAPiOCC+jCQvQKqBQB/BDbwBxK5AHA3E/kB8nKJkA8TMQBwLxaBIKQbi70AvTADSBiSadwFXpCikpKQU8PDwkGTaly9fHFigkaKIJid4584dkiMFFI6jkTJII0WVmpHCAixZQEXWYhDeuXMnyLsVlEQKI45qFBQZ8eRECi4DBaAlDqle/8A48ip6gAADANdQY88Uc0oGAAAAAElFTkSuQmCC" />
     </span>
-    <strong>Doctrine Statistics</strong>
+    <strong>Doctrine Stats</strong>
         <span class="count">
                 <span>{{ collector.identicalQueriesCount }}</span>
                 <span>{{ collector.similarQueriesCount }}</span>
@@ -32,41 +32,44 @@
 
     <h2>Identical Queries ({{ collector.identicalQueriesCount }})</h2>
     {% for connection, identicalQueries in collector.identicalQueries %}
-        <h3>Connection <em>{{ connection }}</em></h3>
-        <table>
-            <tr>
-                <th>Times called</th>
-                <th>SQL</th>
-                <th>Parameters</th>
-            </tr>
-
-            {% for identicalQuery in identicalQueries %}
+        {% if identicalQueries is not empty %}
+            <h3>Connection <em>{{ connection }}</em></h3>
+            <table>
                 <tr>
-                    <td>{{ identicalQuery.count }}</td>
-                    <td>{{ identicalQuery.sql|doctrine_pretty_query(highlight_only = true) }}</td>
-
-                    <td>{{ identicalQuery.parameters|yaml_encode }}</td>
+                    <th>Times called</th>
+                    <th>SQL</th>
+                    <th>Parameters</th>
                 </tr>
-            {% endfor %}
-        </table>
+
+                {% for identicalQuery in identicalQueries %}
+                    <tr>
+                        <td>{{ identicalQuery.count }}</td>
+                        <td>{{ identicalQuery.sql|doctrine_pretty_query(highlight_only = true) }}</td>
+
+                        <td>{{ identicalQuery.parameters|yaml_encode }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     {% endfor %}
 
     <h2>Similar Queries ({{ collector.similarQueriesCount }})</h2>
     {% for connection, similarQueries in collector.similarQueries %}
-        <h3>Connection <em>{{ connection }}</em></h3>
-        <table>
-            <tr>
-                <th>Times called</th>
-                <th>SQL</th>
-            </tr>
-
-            {% for similarQuery in similarQueries %}
+        {% if similarQueries is not empty %}
+            <h3>Connection <em>{{ connection }}</em></h3>
+            <table>
                 <tr>
-                    <td>{{ similarQuery.count }}</td>
-                    <td>{{ similarQuery.sql|doctrine_pretty_query(highlight_only = true) }}</td>
+                    <th>Times called</th>
+                    <th>SQL</th>
                 </tr>
-            {% endfor %}
-        </table>
-    {% endfor%}
 
+                {% for similarQuery in similarQueries %}
+                    <tr>
+                        <td>{{ similarQuery.count }}</td>
+                        <td>{{ similarQuery.sql|doctrine_pretty_query(highlight_only = true) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endfor%}
 {% endblock %}

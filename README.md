@@ -10,6 +10,8 @@ Right now the bundle generates statistical information about:
 - Duplicate queries
 - Similar queries (same queries with different parameters)
 
+![alt text](./Resources/doc/profiler_tab.png "Profiler tag screenshot")
+
 ## Installation
 
 Add a requirement in your composer.json for the `sensiolabs/doctrine-query-statistics-bundle` package:
