@@ -43,8 +43,9 @@ class DoctrineQueryStatisticsDataCollector extends DataCollector
                 $this->data['queryAnalyzers'][$name]->addQuery($query['sql'], $query['params']);
             }
 
-            $this->data['identical'][$name] = $this->data['queryAnalyzers'][$name]->getIdenticalQueries();
-            $this->data['similar'][$name] = $this->data['queryAnalyzers'][$name]->getSimilarQueries();
+            $identical = $this->data['queryAnalyzers'][$name]->getIdenticalQueries();
+            $this->data['identical'][$name] = $identical;
+            $this->data['similar'][$name] = $this->data['queryAnalyzers'][$name]->getSimilarQueries($identical);
         }
     }
 

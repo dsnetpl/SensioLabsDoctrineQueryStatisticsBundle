@@ -31,7 +31,7 @@ class Query
         return $this->filterIndistinctQueries($groupedQueries);
     }
 
-    public function getSimilarQueries()
+    public function getSimilarQueries(array $excludedQueries)
     {
         $groupedQueries = array();
         foreach($this->queries as $query)
@@ -40,7 +40,7 @@ class Query
             $groupedQueries[$queryKey][] = $query;
         }
 
-        return $this->filterIndistinctQueries($groupedQueries);
+        return $this->filterIndistinctQueries($groupedQueries, $excludedQueries);
     }
 
     private function generateQueryKeyWithParameters($sql, $parameters)
@@ -49,7 +49,7 @@ class Query
         if (is_array($parameters)) {
             $key .= ':' . sha1(serialize($parameters));
         }
-        
+
         return $key;
     }
 
@@ -58,12 +58,18 @@ class Query
         return sha1($sql);
     }
 
-    private function filterIndistinctQueries(array $allQueries)
+    private function filterIndistinctQueries(array $allQueries, array $excludedQueries = [])
     {
+        $excludedQueriesSQLs = array_map(
+            function ($query) {
+                return $query['sql'];
+            },
+            $excludedQueries
+        );
         $indistinctQueries = array();
         foreach($allQueries as $queryKey => $queries)
         {
-            if (count($queries) > 1)
+            if (count($queries) > 1 && !in_array($queries[0]['sql'], $excludedQueriesSQLs))
             {
                 $indistinctQueries[$queryKey] = array(
                     'sql' => $queries[0]['sql'],
@@ -72,7 +78,6 @@ class Query
                 );
             }
         }
-
         return $indistinctQueries;
     }
 }
