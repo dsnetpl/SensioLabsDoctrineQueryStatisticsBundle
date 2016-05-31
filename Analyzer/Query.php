@@ -10,7 +10,7 @@ class Query
     {
         $this->queries[] = array(
             'sql' => $sql,
-            'parameters' => $parameters
+            'parameters' => $parameters,
         );
     }
 
@@ -22,8 +22,7 @@ class Query
     public function getIdenticalQueries()
     {
         $groupedQueries = array();
-        foreach($this->queries as $query)
-        {
+        foreach ($this->queries as $query) {
             $queryKey = $this->generateQueryKeyWithParameters($query['sql'], $query['parameters']);
             $groupedQueries[$queryKey][] = $query;
         }
@@ -34,8 +33,7 @@ class Query
     public function getSimilarQueries(array $excludedQueries)
     {
         $groupedQueries = array();
-        foreach($this->queries as $query)
-        {
+        foreach ($this->queries as $query) {
             $queryKey = $this->generateQueryKeyWithoutParameters($query['sql']);
             $groupedQueries[$queryKey][] = $query;
         }
@@ -47,7 +45,7 @@ class Query
     {
         $key = $this->generateQueryKeyWithoutParameters($sql);
         if (is_array($parameters)) {
-            $key .= ':' . sha1(serialize($parameters));
+            $key .= ':'.sha1(serialize($parameters));
         }
 
         return $key;
@@ -67,17 +65,16 @@ class Query
             $excludedQueries
         );
         $indistinctQueries = array();
-        foreach($allQueries as $queryKey => $queries)
-        {
-            if (count($queries) > 1 && !in_array($queries[0]['sql'], $excludedQueriesSQLs))
-            {
+        foreach ($allQueries as $queryKey => $queries) {
+            if (count($queries) > 1 && !in_array($queries[0]['sql'], $excludedQueriesSQLs)) {
                 $indistinctQueries[$queryKey] = array(
                     'sql' => $queries[0]['sql'],
                     'count' => count($queries),
-                    'parameters' => $queries[0]['parameters']
+                    'parameters' => $queries[0]['parameters'],
                 );
             }
         }
+
         return $indistinctQueries;
     }
 }

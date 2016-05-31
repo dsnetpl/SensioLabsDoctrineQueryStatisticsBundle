@@ -21,7 +21,7 @@ class DoctrineQueryStatisticsDataCollector extends DataCollector
     /**
      * Adds the stack logger for a doctrine connection.
      *
-     * @param string     $name
+     * @param string $name
      * @param DebugStack $logger
      */
     public function addLogger($name, DebugStack $logger)
@@ -38,8 +38,7 @@ class DoctrineQueryStatisticsDataCollector extends DataCollector
             $this->data['queries'][$name] = $logger->queries;
 
             $this->data['queryAnalyzers'][$name] = new QueryAnalyzer();
-            foreach($this->data['queries'][$name] as $query)
-            {
+            foreach ($this->data['queries'][$name] as $query) {
                 $this->data['queryAnalyzers'][$name]->addQuery($query['sql'], $query['params']);
             }
 
