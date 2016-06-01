@@ -11,7 +11,7 @@
     <services>
 
         <service id="sensiolabs.doctrinequerystatistics.data_collector" class="%sensiolabs.doctrinequerystatistics.data_collector.class%">
-            <tag name="data_collector" template="SensioLabsDoctrineQueryStatisticsBundle:Collector:doctrinequerystatistics" id="doctrinequerystatistics" priority="255" />
+            <tag name="data_collector" template="SensioLabsDoctrineQueryStatisticsBundle:Collector:doctrinequerystatistics" id="doctrinequerystatistics" priority="249" />
         </service>
     </services>
 </container>
