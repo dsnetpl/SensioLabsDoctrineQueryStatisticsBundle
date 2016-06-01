@@ -10,7 +10,9 @@ Right now the bundle generates statistical information about:
 - Duplicate queries
 - Similar queries (same queries with different parameters)
 
-![alt text](./Resources/doc/profiler_tab.png "Profiler tag screenshot")
+![alt text](./Resources/doc/profiler_tab.png "Profiler tab screenshot")
+
+![alt text](./Resources/doc/profiler_panel.png "Profiler panel screenshot")
 
 ## License
 
